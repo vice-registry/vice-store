@@ -19,6 +19,7 @@ jobs:
       - docker tag vice-store:latest viceregistry/vice-store:latest
       - docker images
       - docker push viceregistry/vice-store:latest
+      
 deploy:
   provider: releases
   api_key:
