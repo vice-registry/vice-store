@@ -22,6 +22,7 @@ func SetStorageConfig(basepath string) {
 
 // StoreImage stores an image in the specified location on the file system
 func StoreImage(image *models.Image, reader io.Reader) error {
+	log.Printf("Going to store at basepath %s", storageConfig.Basepath)
 	filepath := storageConfig.Basepath + "/" + image.ID + ""
 	// open output file
 	file, err := os.Create(filepath)
