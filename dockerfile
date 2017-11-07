@@ -18,4 +18,4 @@ CMD /opt/vice/vice-store \
     --rabbitmq-location $RABBITMQ_LOCATION \
     --rabbitmq-user $RABBITMQ_USER \
     --rabbitmq-pass $RABBITMQ_PASS \
-    -- storage-basepath $STORAGE_BASEPATH
+    --storage-basepath $STORAGE_BASEPATH
