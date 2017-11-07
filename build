@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#save paths
+currentpath=$(pwd)
+export GOPATH=$(cd ../../../../; pwd)
+
+# compile go app
+cd $GOPATH
+go build github.com/vice-registry/vice-store
+mv vice-store $currentpath
+cd $currentpath
+
+# create docker image
+docker build -t vice-store .
+rm vice-store
+
+# overwrite dockerhub image
+#docker tag vice-store:latest viceregistry/vice-store:latest
+
+# upload docker image
+# todo
