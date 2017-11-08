@@ -2,7 +2,7 @@
 
 #save paths
 currentpath=$(pwd)
-export GOPATH=$(cd ../../../../; pwd)
+[ -n "${GOPATH}" ] || export GOPATH=$(cd ../../../../; pwd)
 
 # compile go app
 cd $GOPATH
