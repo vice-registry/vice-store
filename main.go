@@ -19,11 +19,18 @@ func main() {
 	var opts struct {
 	}
 
-	// CouchbaseFlags cli Configuration options for couchbase connection
-	var couchbaseFlags = struct {
-		Location string `short:"" long:"couchbase-location" description:"Location of the Couchbase cluster to connect to (e.g. localhost)"`
-		Username string `short:"" long:"couchbase-user" description:"Username to log in to Couchbase cluster"`
-		Password string `short:"" long:"couchbase-pass" description:"Password to log in to Couchbase cluster"`
+	/*
+		// CouchbaseFlags cli Configuration options for couchbase connection
+		var couchbaseFlags = struct {
+			Location string `short:"" long:"couchbase-location" description:"Location of the Couchbase cluster to connect to (e.g. localhost)"`
+			Username string `short:"" long:"couchbase-user" description:"Username to log in to Couchbase cluster"`
+			Password string `short:"" long:"couchbase-pass" description:"Password to log in to Couchbase cluster"`
+		}{}
+	*/
+	// RethinkdbFlags  Configuration options for rethinkdb connection
+	var rethinkdbFlags = struct {
+		Location string `short:"c" long:"rethinkdb-location" description:"Location of the RethinkDB cluster to connect to (e.g. localhost)"`
+		Database string `short:"d" long:"rethinkdb-database" description:"Database Name of RethinkDB cluster to use (e.g. vice)"`
 	}{}
 
 	// RabbitmqFlags cli Configuration options for rabbitmq connection
@@ -42,7 +49,8 @@ func main() {
 	parser := flags.NewParser(&opts, flags.Default)
 	parser.ShortDescription = "ViCE Image Registry Store"
 	parser.LongDescription = "Store component of the ViCE Image Registry"
-	parser.AddGroup("Couchbase Connection", "Configuration options for couchbase connection", &couchbaseFlags)
+	//parser.AddGroup("Couchbase Connection", "Configuration options for couchbase connection", &couchbaseFlags)
+	parser.AddGroup("RethinkDB Connection", "Configuration options for RethinkDB connection", &rethinkdbFlags)
 	parser.AddGroup("RabbitMQ Connection", "Configuration options for RabbitMQ connection", &rabbitmqFlags)
 	parser.AddGroup("Storage Connection", "Configuration options for Image Storage", &storageFlags)
 	if _, err := parser.Parse(); err != nil {
@@ -67,8 +75,10 @@ func main() {
 	}()
 
 	// initialize couchbase
-	persistence.SetCouchbaseCredentials(couchbaseFlags.Location, couchbaseFlags.Username, couchbaseFlags.Password)
-	persistence.InitViceCouchbase()
+	//persistence.SetCouchbaseCredentials(couchbaseFlags.Location, couchbaseFlags.Username, couchbaseFlags.Password)
+	//persistence.InitViceCouchbase()
+	persistence.SetConnectionProperties(rethinkdbFlags.Location, rethinkdbFlags.Database)
+	persistence.InitDatabase()
 
 	// initialize rabbitmq
 	err := communication.SetRabbitmqCredentials(rabbitmqFlags.Location, rabbitmqFlags.Username, rabbitmqFlags.Password)
