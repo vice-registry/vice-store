@@ -4,17 +4,15 @@ RUN mkdir -p /opt/vice/
 WORKDIR /opt/vice/
 ADD vice-store /opt/vice/
 RUN chmod +x /opt/vice/vice-store
-ENV COUCHBASE_LOCATION=localhost \
-    COUCHBASE_USER=admin \
-    COUCHBASE_PASS=admin \
+ENV RETHINKDB_LOCATION=localhost \
+    RETHINKDB_DATABASE=vice \
     RABBITMQ_LOCATION=localhost \
     RABBITMQ_USER=admin \
     RABBITMQ_PASS=admin \
     STORAGE_BASEPATH=/tmp/
 CMD /opt/vice/vice-store \
-    --couchbase-location $COUCHBASE_LOCATION \
-    --couchbase-user $COUCHBASE_USER \
-    --couchbase-pass $COUCHBASE_PASS \
+    --rethinkdb-location $RETHINKDB_LOCATION \
+    --rethinkdb-database $RETHINKDB_DATABASE \
     --rabbitmq-location $RABBITMQ_LOCATION \
     --rabbitmq-user $RABBITMQ_USER \
     --rabbitmq-pass $RABBITMQ_PASS \
