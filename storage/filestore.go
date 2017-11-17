@@ -18,8 +18,6 @@ func SetStorageConfig(basepath string) {
 	storageConfig.Basepath = basepath
 }
 
-// TODO extract this storage logic to separat layer, outside of vice-import!
-
 // StoreImage stores an image in the specified location on the file system
 func StoreImage(image *models.Image, reader io.Reader) error {
 	log.Printf("Going to store at basepath %s", storageConfig.Basepath)
@@ -56,10 +54,8 @@ func StoreImage(image *models.Image, reader io.Reader) error {
 
 		// write a chunk
 		if _, err := writer.Write(buffer[:n]); err != nil {
-			if err != nil {
-				log.Printf("Error in storage: failed to write to file for imageID %s: %s", image.ID, err)
-				return err
-			}
+			log.Printf("Error in storage: failed to write to file for imageID %s: %s", image.ID, err)
+			return err
 		}
 	}
 
@@ -71,9 +67,35 @@ func StoreImage(image *models.Image, reader io.Reader) error {
 	return nil
 }
 
-// RetrieveImage returns File pointer to an image in the specified location on the file system
-func RetrieveImage(image *models.Image) (*os.File, error) {
+// RetrieveImage reads image from file and writes it to given writer
+func RetrieveImage(image *models.Image, writer io.Writer) error {
+	log.Printf("Going to read from basepath %s", storageConfig.Basepath)
 	filepath := storageConfig.Basepath + "/" + image.ID + ""
 	file, err := os.Open(filepath)
-	return file, err
+	if err != nil {
+		return err
+	}
+
+	// make a buffer to keep chunks that are read
+	buffer := make([]byte, 1024)
+	for {
+		// read a chunk
+		n, err := file.Read(buffer)
+		if err != nil && err != io.EOF {
+			log.Printf("Error in storage: failed to read from file reader for imageID %s: %s", image.ID, err)
+			return err
+		}
+		if n == 0 {
+			log.Printf("nothing more to read ...")
+			break
+		}
+
+		// write a chunk
+		if _, err := writer.Write(buffer[:n]); err != nil {
+			log.Printf("Error in storage: failed to write from file for imageID %s: %s", image.ID, err)
+			return err
+		}
+	}
+
+	return nil
 }

@@ -23,13 +23,22 @@ func handleAction(request storeclient.StoreRequest) error {
 		log.Printf("Failed to connect to %s: %s", request.Connection, err)
 		return err
 	}
-	log.Printf("Connect to %s, start download...", request.Connection)
+	log.Printf("Connect to %s, start transfer...", request.Connection)
 
-	// store file locally
-	storage.StoreImage(image, connection)
+	log.Printf("action: %s", request.Action)
+
+	if request.Action == "retrieve" {
+		// read file locally
+		log.Printf("Going to retrieve file from store")		
+		storage.RetrieveImage(image, connection)
+	} else if request.Action == "store" {
+		// store file locally
+		log.Printf("Going to save file in store")		
+		storage.StoreImage(image, connection)
+	}
 
 	connection.Close()
-	log.Printf("Finished import from %s.", request.Connection)
+	log.Printf("Finished transfer to %s.", request.Connection)
 
 	return nil
 }
