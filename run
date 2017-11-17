@@ -1,0 +1,14 @@
+#!/bin/bash
+
+currentpath=$(pwd)
+[ -n "${GOPATH}" ] || export GOPATH=$(cd ../../../../; pwd)
+
+cd $GOPATH
+
+go run src/github.com/vice-registry/vice-store/main.go \
+    --rethinkdb-location 172.18.0.3 \
+    --rethinkdb-database vice \
+    --rabbitmq-location 172.18.0.2 \
+    --rabbitmq-user vice \
+    --rabbitmq-pass secret \
+    --storage-basepath /srv/vice/images
