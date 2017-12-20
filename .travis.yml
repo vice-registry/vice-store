@@ -2,30 +2,26 @@ sudo: true
 dist: trusty
 language: go
 go:
-  - '1.8' 
-
+- '1.8'
 jobs:
   include:
-    - stage: compile go app
-      script: 
-      - go get -d -v ./...
-      - go build -v    
-    - stage: build docker image
-      script:
-      - go get -d -v ./...
-      - go build -v
-      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      - docker build -t vice-store:latest .
-      - docker tag vice-store:latest viceregistry/vice-store:latest
-      - docker images
-      - docker push viceregistry/vice-store:latest
-      
+  - stage: compile go app
+    script:
+    - go get -d -v ./...
+    - go build -v
+  - stage: build docker image
+    script:
+    - go get -d -v ./...
+    - go build -v
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker build -t vice-store:latest .
+    - docker tag vice-store:latest viceregistry/vice-store:latest
+    - docker images
+    - docker push viceregistry/vice-store:latest
 deploy:
   provider: releases
   api_key:
-    secure: jctOjfd/8+8+7GUubcJHhYijS0mV7VGbdXGjt+uH1Azq1AnAxiqSfKtvNQ9qxKFuexcmTQzk6MZohsUZc5anmbPP/OzaO08JrmeR+PFyKINPqq3nqkI1uaADx/TUvUWrDJMZWgtMuypY11Q+ICfjaOko6gKOOWgS8LvU5cn1RTZcJx2LULD1t0lG+fLBoBcLsNgQhQHO6+gk+kClwo5F4fKRGHdyYBjNQs/z+08mi1bVurq9UhzQFeAviu4bTODZhKfzxu3EU3Jbl7HvmYwQ21O8yPyyMdfQgDO1FODlDh6bD0DvUMQQIAiKS3o6fJKQ9SqJSRfHo/C1lb5lhb1jd8cd3+JkI/4Y7wCA4zuW/AOQyX3MxIPyST+eDUQxWpEQCS16piYpzD8fz9YfU8hBnab3evjw+h7wkJ5S+F3oMM7oWqNfXD7EkMW/cGCtVWByxzOeAfnNWBhTP7UZWINwZHCOitpzUj2FikBToegkPiNljJejRtTYxnFWLclX70ht4VfK6UIbHxdr3dOADQ4B1C+D5woc6BeUC9p0TZOHhrca0mcvCpvuDZ+j6XricLS9etCNPlBJuZyMAcZi/azehfBH6C771d4JjfYTxLcmj4pMri9irbuThtzq2eMVheAm3ZLTnUR326bmOkwqUfYoGZOoZQFGK4GmRxzlOFxfzss=
+    secure: BCYPcTeSkOAb8PqcamB7yL/AUeDNZ2HtwCUmkGRBohGYE6Mx7O8OGyYdtt3yyBQD3Rl/XemXv4MWswXXIweVjbfGJfkxX750/sOjdvMt9+nF3tmQLnSoM/KmHlkZxG3nYmSuRUr8QZUccWWt0RMLdI4R/FwBhBJnZFMeHjk/529/IU8Qj+mr//oGAEWhpXO5qvnnHmG3jDF9hlzYnc1TBEeo5xu3htuyF95bH7XoixSZiCevJmeGIMxCLxN5jM8Aksou8M0L+DNWtcrEgRLmnMvLfdsXB/7G0eoeTwuWg95zL5nEQxNgGVcJD/srfmgc2Gth4VuNBKEDXqSrOT8iJsZyuCfeh/mdLyLCBeiSEmt67YZa0pcJkluRvliN11PxBfBvC06l1iDqs6Nu+qqTxCqJ/fg1YJbGxQOKmdwu1LlbC4yBFhKz0ClCFZhhBowlTm/c2vmgbrIVcj2IqCE19H7tFP3Ra7LeQFJqiGAhO6thsgXgtu+YvhNYcdyH7uZDIedvs5Cg7hMjVQYjE8ts8AIWcqMUn2dWyhe5jS2i67uXoFo8J7kElB5g9RwnMqW932+yXkDeixfSfDMWDll9yXXka949SF5wJdZDU+ITIrVit1e+3MWzHe2WaIFATJl5Z3gbKDrmXjpSHs2T+CsUxty/HLFcE7l5jW3EjyCKrG8=
   file: vice-store
-  skip_cleanup: true
   on:
     repo: vice-registry/vice-store
-    tags: true
