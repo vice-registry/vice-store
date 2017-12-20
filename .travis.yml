@@ -23,5 +23,7 @@ deploy:
   api_key:
     secure: BCYPcTeSkOAb8PqcamB7yL/AUeDNZ2HtwCUmkGRBohGYE6Mx7O8OGyYdtt3yyBQD3Rl/XemXv4MWswXXIweVjbfGJfkxX750/sOjdvMt9+nF3tmQLnSoM/KmHlkZxG3nYmSuRUr8QZUccWWt0RMLdI4R/FwBhBJnZFMeHjk/529/IU8Qj+mr//oGAEWhpXO5qvnnHmG3jDF9hlzYnc1TBEeo5xu3htuyF95bH7XoixSZiCevJmeGIMxCLxN5jM8Aksou8M0L+DNWtcrEgRLmnMvLfdsXB/7G0eoeTwuWg95zL5nEQxNgGVcJD/srfmgc2Gth4VuNBKEDXqSrOT8iJsZyuCfeh/mdLyLCBeiSEmt67YZa0pcJkluRvliN11PxBfBvC06l1iDqs6Nu+qqTxCqJ/fg1YJbGxQOKmdwu1LlbC4yBFhKz0ClCFZhhBowlTm/c2vmgbrIVcj2IqCE19H7tFP3Ra7LeQFJqiGAhO6thsgXgtu+YvhNYcdyH7uZDIedvs5Cg7hMjVQYjE8ts8AIWcqMUn2dWyhe5jS2i67uXoFo8J7kElB5g9RwnMqW932+yXkDeixfSfDMWDll9yXXka949SF5wJdZDU+ITIrVit1e+3MWzHe2WaIFATJl5Z3gbKDrmXjpSHs2T+CsUxty/HLFcE7l5jW3EjyCKrG8=
   file: vice-store
+  skip_cleanup: true
   on:
     repo: vice-registry/vice-store
+    tags: true
